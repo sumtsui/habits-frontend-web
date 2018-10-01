@@ -13,6 +13,7 @@ const styles = {
 
 const Habit = props => {
   const { habit, classes } = props;
+
   return (
     <div className={classes.root}>
       <Header
@@ -23,11 +24,11 @@ const Habit = props => {
         isGood={habit.isGood}
         thisWeek={habit.thisWeek}
       />
-      <Data
+      {/* <Data
         lastWeek={habit.lastWeek}
         thisMonth={habit.thisMonth}
         lastMonth={habit.lastMonth}
-      />
+      /> */}
       <Divider />
     </div>
   )

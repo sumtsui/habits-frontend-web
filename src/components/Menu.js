@@ -11,10 +11,13 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from 'react-router-dom';
+import Logout from './Logout';
+import { connect } from 'react-redux';
+
+import { onMenuClose, onLogoutPromptOpen } from '../actions/';
 
 const styles = theme => ({
   drawerPaper: {
-    // position: 'absolute',
     width: theme.drawer.width,
   },
   drawerHeader: {
@@ -36,47 +39,57 @@ const styles = theme => ({
 });
 
 const Menu = props => {
-  const {classes, open, theme, handleDrawerClose} = props;
+  const { classes, open, theme, onMenuClose, onIn, onLogoutPromptOpen } = props;
 
   const MenuItems = (
-      <List>
-        
-        <ListItem button>
-          <ListItemText primary={<Link to="/new-habit" className={classes.menuText}>Logout</Link>} />
-        </ListItem>
+      <List>   
 
-        <ListItem button>
-          <ListItemText primary={<Link to="/new-habit" className={classes.menuText}>New Habit</Link>} />
-        </ListItem>
+        <Link to={`/new-habit`} className={classes.menuText}>
+          <ListItem button onClick={() => { onMenuClose(); onIn(); }}>
+            <ListItemText primary='New Habit' />
+          </ListItem>
+        </Link>
 
-        <ListItem button>
-          <ListItemText primary={<Link to="/new-habit" className={classes.menuText}>Manage Habits</Link>} />
+        <Link to="/manage-habits" className={classes.menuText}>
+          <ListItem button onClick={() => { onMenuClose(); onIn(); }}>
+            <ListItemText primary='Manage Habits' />
+          </ListItem>
+        </Link>
+
+        <ListItem button onClick={() => { onMenuClose(); onLogoutPromptOpen()}}>
+          <ListItemText primary='Logout' />
         </ListItem>
 
       </List>
   );
 
   return (
-    <SwipeableDrawer
-      anchor='left'
-      open={open}
-      classes={{
-        paper: classes.drawerPaper,
-      }}
-      onOpen={() => {}}
-      onClose={() => {}}
-    >
-      <div className={classes.drawerHeader}>
-        <Typography variant="title" color="textSecondary" className={classes.menuTitle}>
-          Menu
-        </Typography>
-        <IconButton onClick={handleDrawerClose}>
-          {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-        </IconButton>
-      </div>
-      <Divider />
-      {MenuItems}
-    </SwipeableDrawer>
+    <div>
+      <SwipeableDrawer
+        anchor='left'
+        open={open}
+        classes={{paper: classes.drawerPaper}}
+        onOpen={() => {}}
+        onClose={onMenuClose}>
+
+        <div className={classes.drawerHeader}>
+          <Typography variant="title" color="textSecondary" className={classes.menuTitle}>
+            Menu
+          </Typography>
+          <IconButton onClick={onMenuClose}>
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+        </div>
+
+        <Divider />
+
+        {MenuItems}
+
+      </SwipeableDrawer>
+      
+      <Logout />
+
+    </div>
   );
 }
 
@@ -85,4 +98,12 @@ Menu.propTypes = {
   open: PropTypes.bool.isRequired
 };
 
-export default withStyles(styles, {withTheme: true})(Menu);
+const mapStateToProps = state => {
+  const { nav } = state;
+  return {
+    open: nav.menuOpen,
+    logoutPromptOpen: nav.logoutPromptOpen
+  }
+}
+
+export default connect(mapStateToProps, { onMenuClose, onLogoutPromptOpen })(withStyles(styles, {withTheme: true})(Menu));

@@ -32,9 +32,8 @@ const Header = props => {
           {title}
         </Typography>
         <Button
-          color="inherit"
-          variant="outlined"
-          className={kind}
+          color={isGood ? 'primary' : 'secondary'}
+          variant="contained"
           children='Did it'
         />
       </Toolbar>

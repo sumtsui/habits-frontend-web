@@ -1,28 +1,28 @@
 import React from 'react';
-import {withStyles} from '@material-ui/core/styles';
-import Habit from './Habit/Habit'
+import { withStyles } from '@material-ui/core/styles';
+import Habit from './Habit/Habit';
+import Grow from "@material-ui/core/Grow";
 
 const styles = theme => ({
-  root: {
-    width: '100%'
-  },
   drawerHeader: {
     ...theme.mixins.toolbar,
   },
 });
 
 const Home = props => {
-  const {classes, habits} = props;
+  const { classes, habits, transition } = props;
   return (
-    <main className={classes.root}>
+    <Grow in={transition}>
+    <main>
       <div className={classes.drawerHeader} />
       {habits.map(habit => 
         <Habit
           habit={habit}
-          key={habit.id}
+          key={habit._id}
         />
       )}
     </main>
+    </Grow>
   )
 }
 

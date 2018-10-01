@@ -40,18 +40,18 @@ const styles = theme => ({
 });
 
 const Week = props => {
-  const dayOftheWeek = new Date().getDay();
+  const dayOftheWeek = (new Date().getDay() === 0) ? 7 : new Date().getDay();
   const { classes, isGood, thisWeek } = props;
   const bull = <span className={classes.bullet}>•</span>;
   return (
     <div className={classes.root}>
       {
-        ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, i) => {
+        [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ].map((day, i) => {
           let kind = '';
-          if (thisWeek.includes(i)) {
+          if (thisWeek.includes(i+1)) {
             kind = isGood ? classes.good : classes.bad;
           }
-          if (i === dayOftheWeek) {
+          if (i+1 === dayOftheWeek) {
             return (
               <div className={classes.today} key={day}>
                 <div className={`${classes.circle} ${kind}`}>

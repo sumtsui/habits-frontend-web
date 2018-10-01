@@ -8,13 +8,11 @@ import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbUpOutlined from '@material-ui/icons/ThumbUpOutlined';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import ThumbDownOutlined from '@material-ui/icons/ThumbDownOutlined';
-import Button from "@material-ui/core/Button";
+import Grow from "@material-ui/core/Grow";
 import classNames from 'classnames';
+import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
-  root: {
-    width: '100%'
-  },
   drawerHeader: {
     ...theme.mixins.toolbar,
   },
@@ -34,23 +32,23 @@ const styles = theme => ({
   label: {
     marginRight: theme.spacing.unit * 6
   },
-  formButtons: {
+  button: {
     marginTop: theme.spacing.unit * 6
-  },
+  }
 });
 
 class NewHabit extends Component {
 
   state = {
     title: '',
-    kind: ''
+    kind: '',
   };
 
-  handleChange = event => {
+  onTextChange = event => {
     this.setState({title: event.target.value});
   };
 
-  handleCheck = event => {
+  onCheck = event => {
     if (event.target.checked) {
       this.setState({kind: event.target.value});
     } else {
@@ -60,18 +58,20 @@ class NewHabit extends Component {
   };
 
   render() {
-    const {classes} = this.props;
+
+    const { classes, transition } = this.props;
     return (
-      <main className={classes.root}>
+      <Grow in={transition}>
+      <main>
         <div className={classes.drawerHeader} />
         <form className={classes.container} noValidate autoComplete="off">
-          <FormGroup row className={classes.formItem} >
+          <FormGroup row className={classes.formItem}>
             <TextField
               id="new-habit-title"
               label="Enter Title"
               className={classes.textField}
               value={this.state.name}
-              onChange={this.handleChange}
+              onChange={this.onTextChange}
               margin="normal"
               variant="outlined"
             />
@@ -82,7 +82,7 @@ class NewHabit extends Component {
               control={
                 <Checkbox
                   checked={this.state.kind === 'good'}
-                  onChange={this.handleCheck}
+                  onChange={this.onCheck}
                   value="good"
                   color="primary"
                   icon={<ThumbUpOutlined />}
@@ -95,7 +95,7 @@ class NewHabit extends Component {
               control={
                 <Checkbox
                   checked={this.state.kind === 'bad'}
-                  onChange={this.handleCheck}
+                  onChange={this.onCheck}
                   value="bad"
                   color="secondary"
                   icon={<ThumbDownOutlined />}
@@ -105,16 +105,17 @@ class NewHabit extends Component {
               label="Bad Habit"
             />
           </FormGroup>
-          <FormGroup row className={classNames(classes.formItem, classes.formButtons)}>
+          <FormGroup row className={classNames(classes.formItem)}>
             <Button
               color="primary"
-              variant="outlined"
               children='Save'
               variant='contained'
+              className={classes.button}
             />
           </FormGroup>
         </form>
       </main>
+      </Grow>
     )
   }
 }
