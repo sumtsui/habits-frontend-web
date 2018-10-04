@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import { connect } from 'react-redux';
+import { recordHabit, undoRecordHabit } from '../../actions';
 
 const styles = {
   grow: {
@@ -20,7 +23,7 @@ const styles = {
 };
 
 const Header = props => {
-  const { classes, title, isGood } = props;
+  const { classes, title, isGood, _id, recordHabit, undoRecordHabit, recorded } = props;
   const kind = isGood ? classes.good : classes.bad;
   return (
     <div className={classes.root}>
@@ -31,10 +34,15 @@ const Header = props => {
         >
           {title}
         </Typography>
-        <Button
-          color={isGood ? 'primary' : 'secondary'}
-          variant="contained"
-          children='Did it'
+        <FormControlLabel
+          control={
+            <Switch
+              checked={recorded}
+              onChange={(e) => (e.target.checked) ? recordHabit(_id) : undoRecordHabit(_id)}
+              color={isGood ? 'primary' : 'secondary'}
+            />
+          }
+          label="Did It"
         />
       </Toolbar>
     </div>
@@ -45,4 +53,11 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Header);
+const mapStateToProps = (state) => {
+  const {habit} = state;
+  return {
+    ...state
+  }
+}
+
+export default connect(mapStateToProps, { recordHabit, undoRecordHabit })(withStyles(styles)(Header));

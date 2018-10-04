@@ -13,22 +13,27 @@ const styles = {
 
 const Habit = props => {
   const { habit, classes } = props;
+  // const today = new Date().getDate() === 0 ? 7 : new Date().getDate();
+  // const recorded = habit.thisWeek.includes(today) ? true : false;
 
   return (
     <div className={classes.root}>
       <Header
         title={habit.title}
+        _id={habit._id}
         isGood={habit.isGood}
+        recorded={habit.recorded}
       />
       <Week
         isGood={habit.isGood}
         thisWeek={habit.thisWeek}
+        recorded={habit.recorded}
       />
-      {/* <Data
+      <Data
         lastWeek={habit.lastWeek}
         thisMonth={habit.thisMonth}
         lastMonth={habit.lastMonth}
-      /> */}
+      />
       <Divider />
     </div>
   )

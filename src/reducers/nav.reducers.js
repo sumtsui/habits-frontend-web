@@ -1,13 +1,13 @@
 import {
   NAV_MENU_OPEN,
   NAV_MENU_CLOSE,
-  NAV_LOGOUT_PROMPT_OPEN,
-  NAV_LOGOUT_PROMPT_CLOSE
+  NAV_PROMPT_OPEN,
+  NAV_PROMPT_CLOSE
 } from '../actions/ActionTypes';
 
 const initialState = {
   menuOpen: false,
-  logoutPromptOpen: false
+  promptOpen: false
 }
 
 export default (state = initialState, action) => {
@@ -25,16 +25,16 @@ export default (state = initialState, action) => {
         menuOpen: false
       }
 
-    case NAV_LOGOUT_PROMPT_OPEN:
+    case NAV_PROMPT_OPEN:
       return {
         ...state,
-        logoutPromptOpen: true
+        promptOpen: true
       }
     
-    case NAV_LOGOUT_PROMPT_CLOSE:
+    case NAV_PROMPT_CLOSE:
       return {
         ...state,
-        logoutPromptOpen: false
+        promptOpen: false
       }
 
     default:

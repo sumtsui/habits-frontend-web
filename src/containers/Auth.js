@@ -13,12 +13,14 @@ class Auth extends Component {
         <Route path={`${match.url}/login`} render={() =>
           <Login
             transition={transition}
+            match={match}
           />
         } />
 
-        <Route path={`${match.url}/signup`} render={() =>
+        <Route path={`${match.url}/signup`} render={({ match }) =>
           <Signup
             transition={transition}
+            match={match}
           />
         } />
       </div>

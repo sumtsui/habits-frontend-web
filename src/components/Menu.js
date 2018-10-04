@@ -11,10 +11,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from 'react-router-dom';
-import Logout from './Logout';
+import ConfirmPrompt from './ConfirmPrompt';
 import { connect } from 'react-redux';
-
-import { onMenuClose, onLogoutPromptOpen } from '../actions/';
+import { onMenuClose, onPromptOpen, logoutUser } from '../actions/';
 
 const styles = theme => ({
   drawerPaper: {
@@ -39,24 +38,24 @@ const styles = theme => ({
 });
 
 const Menu = props => {
-  const { classes, open, theme, onMenuClose, onIn, onLogoutPromptOpen } = props;
+  const { classes, open, theme, onMenuClose, onIn, onPromptOpen, logoutUser } = props;
 
   const MenuItems = (
       <List>   
 
         <Link to={`/new-habit`} className={classes.menuText}>
-          <ListItem button onClick={() => { onMenuClose(); onIn(); }}>
+          <ListItem button onClick={() => { onMenuClose(); }}>
             <ListItemText primary='New Habit' />
           </ListItem>
         </Link>
 
         <Link to="/manage-habits" className={classes.menuText}>
-          <ListItem button onClick={() => { onMenuClose(); onIn(); }}>
+          <ListItem button onClick={() => { onMenuClose(); }}>
             <ListItemText primary='Manage Habits' />
           </ListItem>
         </Link>
 
-        <ListItem button onClick={() => { onMenuClose(); onLogoutPromptOpen()}}>
+        <ListItem button onClick={() => { onMenuClose(); onPromptOpen()}}>
           <ListItemText primary='Logout' />
         </ListItem>
 
@@ -87,7 +86,7 @@ const Menu = props => {
 
       </SwipeableDrawer>
       
-      <Logout />
+      <ConfirmPrompt message='Log out from Habits?' action={logoutUser} />
 
     </div>
   );
@@ -102,8 +101,8 @@ const mapStateToProps = state => {
   const { nav } = state;
   return {
     open: nav.menuOpen,
-    logoutPromptOpen: nav.logoutPromptOpen
+    promptOpen: nav.promptOpen
   }
 }
 
-export default connect(mapStateToProps, { onMenuClose, onLogoutPromptOpen })(withStyles(styles, {withTheme: true})(Menu));
+export default connect(mapStateToProps, { onMenuClose, onPromptOpen, logoutUser })(withStyles(styles, {withTheme: true})(Menu));

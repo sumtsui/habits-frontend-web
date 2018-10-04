@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {withStyles} from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -39,37 +39,46 @@ const styles = theme => ({
   }
 });
 
-const Week = props => {
-  const dayOftheWeek = (new Date().getDay() === 0) ? 7 : new Date().getDay();
-  const { classes, isGood, thisWeek } = props;
-  const bull = <span className={classes.bullet}>•</span>;
-  return (
-    <div className={classes.root}>
-      {
-        [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ].map((day, i) => {
-          let kind = '';
-          if (thisWeek.includes(i+1)) {
-            kind = isGood ? classes.good : classes.bad;
-          }
-          if (i+1 === dayOftheWeek) {
-            return (
-              <div className={classes.today} key={day}>
-                <div className={`${classes.circle} ${kind}`}>
-                  {day}
+class Week extends Component {
+
+  render() {
+    const dayOftheWeek = (new Date().getDay() === 0) ? 7 : new Date().getDay();
+    const { classes, isGood, thisWeek, recorded } = this.props;
+    const bull = <span className={classes.bullet}>•</span>;
+    return (
+      <div className={classes.root}>
+        {
+          [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ].map((day, index) => {
+            let active = isGood ? classes.good : classes.bad;
+            
+            if (!thisWeek.includes(index + 1)) {
+              active = null
+            }
+
+            // today
+            if (index + 1 === dayOftheWeek) {
+              if (recorded) active = isGood ? classes.good : classes.bad;
+              else active = null;
+              return (
+                <div className={classes.today} key={day}>
+                  <div className={`${classes.circle} ${active}`}>
+                    {day}
+                  </div>
+                  {bull}
                 </div>
-                {bull}
+              )
+            }
+
+            return (
+              <div className={`${classes.circle} ${active}`} key={day} >
+                {day}
               </div>
             )
-          }
-          return (
-            <div className={`${classes.circle} ${kind}`} key={day} >
-              {day}
-            </div>
-          )
-        })
-      }
-    </div>
-  )
+          })
+        }
+      </div>
+    )
+  }
 }
 
 export default withStyles(styles)(Week);

@@ -8,10 +8,10 @@ export const onMenuClose = () => ({
   type: types.NAV_MENU_CLOSE
 });
 
-export const onLogoutPromptOpen = () => ({
-  type: types.NAV_LOGOUT_PROMPT_OPEN
+export const onPromptOpen = () => ({
+  type: types.NAV_PROMPT_OPEN
 });
 
-export const onLogoutPromptClose = () => ({
-  type: types.NAV_LOGOUT_PROMPT_CLOSE
+export const onPromptClose = () => ({
+  type: types.NAV_PROMPT_CLOSE
 });

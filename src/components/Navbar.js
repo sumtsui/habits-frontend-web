@@ -58,11 +58,11 @@ class Navbar extends Component {
                 className={classes.menuButton}
                 children={<MenuIcon />}
               />
-              <Slide direction="down" in={!transition} mountOnEnter unmountOnExit>
+              {/* <Slide direction="down" in={!transition} mountOnEnter unmountOnExit> */}
               <Typography variant="title" color="inherit">
                 {barTitle}
               </Typography>
-              </Slide>
+              {/* </Slide> */}
               </Toolbar>
               :
               <Toolbar>
@@ -70,17 +70,17 @@ class Navbar extends Component {
                   color="inherit"
                   aria-label="Open drawer"
                   onClick={() => {
-                    onBack();
-                    setTimeout(() => history.goBack(), 500);
+                    // onBack();
+                    history.goBack();
                   }}
                   className={classes.menuButton}
                   children={<ChevronLeftIcon />}
                 />
-                <Slide direction="up" in={transition} mountOnEnter unmountOnExit>
+                {/* <Slide direction="up" in={transition} mountOnEnter unmountOnExit> */}
                   <Typography variant="title" color="inherit">
                     {barTitle}
                   </Typography>
-                </Slide>
+                {/* </Slide> */}
               </Toolbar>
           }
       </AppBar>

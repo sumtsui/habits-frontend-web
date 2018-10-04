@@ -11,6 +11,9 @@ import ThumbDownOutlined from '@material-ui/icons/ThumbDownOutlined';
 import Grow from "@material-ui/core/Grow";
 import classNames from 'classnames';
 import Button from "@material-ui/core/Button";
+import { connect } from 'react-redux';
+
+import { addNewHabit } from '../actions';
 
 const styles = theme => ({
   drawerHeader: {
@@ -54,17 +57,25 @@ class NewHabit extends Component {
     } else {
       this.setState({kind: ''});
     }
-    
   };
+
+  onSubmit = e => {
+    e.preventDefault();
+    const data = {
+      title: this.state.title,
+      isGood: this.state.kind === 'good' ? 1 : 0
+    }
+    this.props.addNewHabit(data, this.props.history);
+  }
 
   render() {
 
     const { classes, transition } = this.props;
     return (
-      <Grow in={transition}>
+      // <Grow in={transition}>
       <main>
         <div className={classes.drawerHeader} />
-        <form className={classes.container} noValidate autoComplete="off">
+        <form className={classes.container} noValidate autoComplete="off" onSubmit={this.onSubmit}>
           <FormGroup row className={classes.formItem}>
             <TextField
               id="new-habit-title"
@@ -111,13 +122,18 @@ class NewHabit extends Component {
               children='Save'
               variant='contained'
               className={classes.button}
+              type="submit"
             />
           </FormGroup>
         </form>
       </main>
-      </Grow>
+      // </Grow>
     )
   }
 }
 
-export default withStyles(styles)(NewHabit);
+const mapStateToProps = state => {
+  return state;
+}
+
+export default connect(mapStateToProps, { addNewHabit })(withStyles(styles)(NewHabit));

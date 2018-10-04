@@ -33,8 +33,10 @@ class App extends Component {
     
             <Route path="/" render={props =>
               <div>
-                {isLogin || <Redirect to='/auth/login' />}
-                <Main {...props} />
+                {isLogin 
+                ? <Main {...props} />
+                : <Redirect to='/auth/login' />
+                }
               </div>
             } />
 

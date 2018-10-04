@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import HabitList from '../components/HabitList';
 import NewHabit from '../components/NewHabit';
-import ManageHabits from '../components/ManageHabits';
+import ManageContainer from '../components/ManageContainer';
 import Navbar from '../components/Navbar';
 import Menu from '../components/Menu';
 import { Route } from 'react-router-dom';
@@ -38,7 +38,7 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    this.props.getHabits();
+    // this.props.getHabits();
   }
 
   // animation
@@ -46,7 +46,7 @@ class Main extends Component {
   onIn = () => this.setState({ transition: true });
 
   render() {
-    const { history, location, habits, loading } = this.props;
+    const { history, location, habits, loading, getHabits } = this.props;
     const { transition } = this.state;
 
     return (
@@ -54,32 +54,37 @@ class Main extends Component {
       <div>
 
         <Navbar
-          onBack={this.onBack}
+          // onBack={this.onBack}
           history={history}
           location={location}
-          transition={transition}
+          // transition={transition}
         />
 
         <Route exact path={`/`} render={() =>
           <Menu
-            onIn={this.onIn}
+            // onIn={this.onIn}
           />
         } />
 
         <Route exact path={`/`} render={() =>
-          <HabitList habits={habits} transition={!transition} />
-        } />
-
-        <Route path={`/new-habit`} render={() =>
-          <NewHabit
-            transition={transition}
+          <HabitList
+            habits={habits}
+            getHabits={getHabits}
+            // transition={!transition} 
           />
         } />
 
-        <Route path={`/manage-habits`} render={() =>
-          <ManageHabits
-            habits={habits}
-            transition={transition}
+        <Route path={`/new-habit`} render={({history}) =>
+          <NewHabit
+            // transition={transition}
+            history={history}
+          />
+        } />
+
+        <Route path={`/manage-habits`} render={({history}) =>
+          <ManageContainer
+            // transition={transition}
+            history={history}
           />
         } />
 
@@ -89,10 +94,11 @@ class Main extends Component {
 }
 
 const mapStateToProps = state => {
-  const { habit } = state;
+  const { habit, auth } = state;
   return {
     habits: habit.habits,
-    loading: habit.loading
+    loading: habit.loading,
+    isLogin: auth.isLogin
   }
 }
 

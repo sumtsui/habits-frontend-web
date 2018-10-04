@@ -30,7 +30,7 @@ const styles = theme => ({
 class Login extends Component {
 
   render() {
-    const { classes, onTextChanged, email, password, loginUser, isLogin } = this.props;
+    const { classes, onTextChanged, email, password, loginUser, isLogin, match } = this.props;
 
     if (isLogin) {
       return <Redirect to='/' />;
@@ -76,7 +76,7 @@ class Login extends Component {
           children='Create new account'
           variant='text'
           component={Link}
-          to='/signup'
+          to={`${match.url}/signup`}
           className={classes.newAccountButton}
         />
       </form>
