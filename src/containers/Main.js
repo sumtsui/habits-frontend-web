@@ -17,6 +17,7 @@ const styles = theme => ({
 
 class Main extends Component {
 
+
   render() {
     const { history, location, habits, loading, getHabits, classes, authLoading } = this.props;
 
