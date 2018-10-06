@@ -8,23 +8,15 @@ import { connect } from 'react-redux';
 
 class App extends Component {
 
-  componentDidMount() {
-    fetch('http://localhost:3000/api/')
-      .then((response) =>
-        response.json()
-      )
-      .then(json => {
-        console.log(JSON.stringify(json));
-      });
-  }
-
   render() {
 
     const { isLogin } = this.props;
 
     return (
+      <div className='app-wrapper'>
       <MuiThemeProvider theme={theme} >
         <BrowserRouter>
+            
           <Switch>
 
             <Route path="/auth" render={props =>
@@ -41,8 +33,10 @@ class App extends Component {
             } />
 
           </Switch>
+
         </BrowserRouter>
       </MuiThemeProvider>
+      </div>
     );
   }
 }
@@ -50,7 +44,7 @@ class App extends Component {
 const mapStateToProps = state => {
   const { auth } = state;
   return {
-    isLogin: auth.isLogin
+    isLogin: auth.isLogin,
   }
 }
 

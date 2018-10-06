@@ -2,16 +2,18 @@ import * as types from './ActionTypes';
 
 export const getHabits = () => {
   return (dispatch) => {
-    dispatch({ type: types.HABIT_GET_ALL_START });
+    dispatch({ type: types.HABIT_ASYNC_START });
     fetch('http://localhost:3000/api/v1/habits/all', { credentials: "include" })
       .then(res => res.json())
       .then(json => {
         // Sort habits by pos
-        json.habits.sort((a, b) => a.pos > b.pos);
-        dispatch({
-          type: types.HABIT_GET_ALL_DONE,
-          payload: json.habits
-        })  
+        if (json.habits) {
+          json.habits.sort((a, b) => a.pos > b.pos);
+          dispatch({
+            type: types.HABIT_GET_ALL_DONE,
+            payload: json.habits
+          })  
+        }
       })
       .catch(console.log);
   }
@@ -19,7 +21,7 @@ export const getHabits = () => {
 
 export const addNewHabit = (data, history) => {
   return (dispatch) => {
-    dispatch({ type: types.HABIT_ADD_NEW_START });
+    dispatch({ type: types.HABIT_ASYNC_START });
     fetch('http://localhost:3000/api/v1/habits/new', {
       method: "POST",
       mode: "cors", 
@@ -32,9 +34,11 @@ export const addNewHabit = (data, history) => {
     })
       .then(res => res.json())
       .then(json => {
-        // if (json.error) console.log(json.error);
-        dispatch({ type: types.HABIT_ADD_NEW_DONE })
-        history.goBack();
+        if (json.error) dispatch({ type: types.HABIT_ASYNC_FAIL, payload: json.error });
+        else {
+          dispatch({ type: types.HABIT_ADD_NEW_DONE })
+          history.goBack();
+        }
       })
       .catch(console.log);
   }
@@ -42,11 +46,11 @@ export const addNewHabit = (data, history) => {
 
 export const saveChange = (data, history) => {
   
-  // Get user sorted habit list index 
+  // Get user-rearranged habit list index 
   const habits = data.map((habit, index) => ({ title: habit.title, pos: index }));
 
   return (dispatch) => {
-    dispatch({type: types.HABIT_SAVE_CHANGE_START});
+    dispatch({ type: types.HABIT_ASYNC_START });
     fetch('http://localhost:3000/api/v1/habits/save-all', {
       method: "PUT",
       mode: "cors",
@@ -64,8 +68,9 @@ export const saveChange = (data, history) => {
   }
 }
 
-export const recordHabit = id => {
+export const recordHabit = (id, bool) => {
   return (dispatch) => {
+    dispatch({ type: types.HABIT_ASYNC_START });
     fetch(`http://localhost:3000/api/v1/habits/${id}/records/new`, {
       method: "POST",
       mode: "cors",
@@ -75,16 +80,17 @@ export const recordHabit = id => {
       .then(res => res.json())
       .then(json => {
         dispatch({ 
-          type: types.HABIT_RECORD,
-          payload: id
+          type: types.HABIT_RECORD_DONE,
+          payload: { bool, id }
         })
       })
       .catch(console.log);
   }
 }
 
-export const undoRecordHabit = id => {
+export const undoRecordHabit = (id, bool) => {
   return (dispatch) => {
+    dispatch({ type: types.HABIT_ASYNC_START });
     fetch(`http://localhost:3000/api/v1/habits/${id}/records/`, {
       method: "DELETE",
       mode: "cors",
@@ -94,8 +100,8 @@ export const undoRecordHabit = id => {
       .then(res => res.json())
       .then(json => {
         dispatch({ 
-          type: types.HABIT_RECORD_UNDO,
-          payload: id
+          type: types.HABIT_RECORD_UNDO_DONE,
+          payload: { bool, id }
         })
       })
       .catch(console.log);
@@ -104,7 +110,7 @@ export const undoRecordHabit = id => {
 
 export const deleteHabit = id => {
   return (dispatch) => {
-    dispatch({ type: types.HABIT_START_ASYNC });
+    dispatch({ type: types.HABIT_ASYNC_START });
     fetch(`http://localhost:3000/api/v1/habits/${id}/`, {
       method: "DELETE",
       mode: "cors",
@@ -114,7 +120,8 @@ export const deleteHabit = id => {
       .then(res => res.json())
       .then(json => {
         dispatch({
-          type: types.HABIT_DELETE_DONE
+          type: types.HABIT_DELETE_DONE,
+          payload: id
         })
       })
       .catch(console.log);

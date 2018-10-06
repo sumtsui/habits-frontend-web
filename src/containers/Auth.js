@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import ProgressBar from '../components/ProgressBar';
 
 class Auth extends Component {
   render() {
 
-    const { transition, match } = this.props;
+    const { transition, match, loading } = this.props;
 
     return (
       <div>
+        {loading ? <ProgressBar /> : null}
         <Route path={`${match.url}/login`} render={() =>
           <Login
             transition={transition}
@@ -28,4 +31,11 @@ class Auth extends Component {
   }
 }
 
-export default Auth;
+const mapStateToProps = state => {
+  const { auth } = state;
+  return {
+    loading: auth.loading,
+  }
+}
+
+export default connect(mapStateToProps, {})(Auth);

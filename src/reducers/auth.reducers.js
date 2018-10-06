@@ -1,9 +1,10 @@
 import {
-  AUTH_LOGIN_START,
+  AUTH_ASYNC_START,
+  AUTH_ASYNC_FAIL,
   AUTH_TEXT_CHANGED,
-  AUTH_LOGIN_SUCCESS,
-  AUTH_LOGIN_FAIL,
-  AUTH_LOGOUT_SUCCESS
+  AUTH_LOGIN_DONE,
+  AUTH_LOGOUT_DONE,
+  AUTH_SIGNUP_DONE,
 } from '../actions/ActionTypes';
 
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
   email: '',
   password: '',
   error: '',
-  loading: false
+  loading: false,
+  repeatPassword: ''
 }
 
 export default (state = initialState, action) => {
@@ -20,34 +22,49 @@ export default (state = initialState, action) => {
     case AUTH_TEXT_CHANGED:
       return {
         ...state,
-        [action.payload.target.name]: action.payload.target.value
+        [action.payload.target.name]: action.payload.target.value,
       }
     
-    case AUTH_LOGIN_START: 
+    case AUTH_ASYNC_START: 
       return {
         ...state,
         loading: true,
-      }
-
-    case AUTH_LOGIN_SUCCESS: 
-      return {
-        ...state,
-        loading: false,
-        isLogin: true,
         error: ''
       }
 
-    case AUTH_LOGIN_FAIL:
+    case AUTH_ASYNC_FAIL:
       return {
         ...state,
         loading: false,
         error: action.payload
       }
-    
-    case AUTH_LOGOUT_SUCCESS:
+
+    case AUTH_LOGIN_DONE: 
       return {
         ...state,
-        isLogin: false
+        isLogin: true,
+        loading: false,
+        password: '',
+        email: '',
+      }
+
+    case AUTH_LOGOUT_DONE:
+      return {
+        ...state,
+        isLogin: false,
+        loading: false,
+        password: '',
+        email: '',
+      }
+
+    case AUTH_SIGNUP_DONE:
+      return {
+        ...state,
+        isLogin: true,
+        loading: false,
+        password: '',
+        email: '',
+        repeatPassword: ''
       }
 
     default:

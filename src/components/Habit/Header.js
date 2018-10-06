@@ -8,9 +8,10 @@ import Switch from '@material-ui/core/Switch';
 import { connect } from 'react-redux';
 import { recordHabit, undoRecordHabit } from '../../actions';
 
-const styles = {
+const styles = theme => ({
   grow: {
-    flexGrow: 1
+    flexGrow: 1,
+    paddingLeft: theme.spacing.unit
   },
   good: {
     color: 'orange',
@@ -20,13 +21,13 @@ const styles = {
     color: 'purple',
     borderColor: 'purple',
   }
-};
+});
 
 const Header = props => {
-  const { classes, title, isGood, _id, recordHabit, undoRecordHabit, recorded } = props;
+  const { classes, title, isGood, _id, recordHabit, undoRecordHabit, todayLogged } = props;
   const kind = isGood ? classes.good : classes.bad;
   return (
-    <div className={classes.root}>
+    <div>
       <Toolbar>
         <Typography
           variant="title"
@@ -37,8 +38,10 @@ const Header = props => {
         <FormControlLabel
           control={
             <Switch
-              checked={recorded}
-              onChange={(e) => (e.target.checked) ? recordHabit(_id) : undoRecordHabit(_id)}
+              checked={todayLogged}
+              onChange={(e) => {
+                (e.target.checked) ? recordHabit(_id, e.target.checked) : undoRecordHabit(_id, e.target.checked);
+              }}
               color={isGood ? 'primary' : 'secondary'}
             />
           }
@@ -53,11 +56,4 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => {
-  const {habit} = state;
-  return {
-    ...state
-  }
-}
-
-export default connect(mapStateToProps, { recordHabit, undoRecordHabit })(withStyles(styles)(Header));
+export default connect(null, { recordHabit, undoRecordHabit })(withStyles(styles)(Header));

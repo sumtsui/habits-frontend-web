@@ -7,7 +7,7 @@ export const onTextChanged = e => ({
 
 export const loginUser = (data) => {
   return (dispatch) => {
-    dispatch({ type: types.AUTH_LOGIN_START });
+    dispatch({ type: types.AUTH_ASYNC_START });
     fetch('http://localhost:3000/api/v1/users/log-in', {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, cors, *same-origin
@@ -20,8 +20,8 @@ export const loginUser = (data) => {
     })
     .then(res => res.json())
     .then(json => {
-      if (json.error) dispatch({ type: types.AUTH_LOGIN_FAIL, payload: json.error });
-      else dispatch({ type: types.AUTH_LOGIN_SUCCESS });
+      if (json.error) dispatch({ type: types.AUTH_ASYNC_FAIL, payload: json.error });
+      else dispatch({ type: types.AUTH_LOGIN_DONE });
     })
     .catch(console.log);
   }
@@ -29,9 +29,29 @@ export const loginUser = (data) => {
 
 export const logoutUser = () => {
   return (dispatch) => {
+    dispatch({ type: types.AUTH_ASYNC_START });
     fetch('http://localhost:3000/api/v1/users/log-out', { credentials: "include" })
       .then(res => res.json())
-      .then(json => dispatch({ type: types.AUTH_LOGOUT_SUCCESS }))
+      .then(json => dispatch({ type: types.AUTH_LOGOUT_DONE }))
+      .catch(console.log);
+  }
+}
+
+export const signupUser = data => {
+  return (dispatch) => {
+    dispatch({ type: types.AUTH_ASYNC_START });
+    fetch('http://localhost:3000/api/v1/users/sign-up', {
+      method: "POST", 
+      mode: "cors", 
+      credentials: "include",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      body: JSON.stringify(data),
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json.error) dispatch({ type: types.AUTH_ASYNC_FAIL, payload: json.error });
+        else dispatch({ type: types.AUTH_SIGNUP_DONE });
+      })
       .catch(console.log);
   }
 }

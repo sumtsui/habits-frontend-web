@@ -8,9 +8,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import classNames from 'classnames';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import Slide from "@material-ui/core/Slide";
 import { connect } from 'react-redux';
-
+import ProgressBar from './ProgressBar'
 import { onMenuOpen } from '../actions';
 
 const styles = theme => ({
@@ -26,7 +25,7 @@ class Navbar extends Component {
 
   render() {
 
-    const { classes, location, history, onBack, transition, onMenuOpen } = this.props;
+    const { classes, location, history, onMenuOpen, loading, authLoading } = this.props;
 
     let barTitle = '';
 
@@ -47,42 +46,39 @@ class Navbar extends Component {
 
     return (
       // Interesting logic here 'transition' and '!transition'
-      <AppBar className={classNames(classes.appBar)} >
-          {
-            (location.pathname === '/') ?
-              <Toolbar>
-              <IconButton 
+      <AppBar className={classNames(classes.appBar, 'habit-app-bar')} position='absolute' >
+        {
+          (location.pathname === '/') ?
+            <Toolbar>
+            <IconButton 
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={onMenuOpen}
+              className={classes.menuButton}
+              children={<MenuIcon />}
+            />
+            <Typography variant="title" color="inherit">
+              {barTitle}
+            </Typography>
+
+            </Toolbar>
+            :
+            <Toolbar>
+              <IconButton
                 color="inherit"
                 aria-label="Open drawer"
-                onClick={onMenuOpen}
+                onClick={() => { history.goBack() }}
                 className={classes.menuButton}
-                children={<MenuIcon />}
+                children={<ChevronLeftIcon />}
               />
-              {/* <Slide direction="down" in={!transition} mountOnEnter unmountOnExit> */}
-              <Typography variant="title" color="inherit">
-                {barTitle}
-              </Typography>
-              {/* </Slide> */}
-              </Toolbar>
-              :
-              <Toolbar>
-                <IconButton
-                  color="inherit"
-                  aria-label="Open drawer"
-                  onClick={() => {
-                    // onBack();
-                    history.goBack();
-                  }}
-                  className={classes.menuButton}
-                  children={<ChevronLeftIcon />}
-                />
-                {/* <Slide direction="up" in={transition} mountOnEnter unmountOnExit> */}
-                  <Typography variant="title" color="inherit">
-                    {barTitle}
-                  </Typography>
-                {/* </Slide> */}
-              </Toolbar>
-          }
+
+                <Typography variant="title" color="inherit">
+                  {barTitle}
+                </Typography>
+
+            </Toolbar>
+        }
+        {(loading || authLoading) ? <ProgressBar /> : null}
       </AppBar>
     );
   }

@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Habit from './Habit/Habit';
-import Grow from "@material-ui/core/Grow";
+import { connect } from 'react-redux';
+import Empty from './Empty';
+
 
 const styles = theme => ({
-  drawerHeader: {
-    ...theme.mixins.toolbar,
-  },
 });
 
 class HabitList extends Component {
@@ -15,22 +14,30 @@ class HabitList extends Component {
     this.props.getHabits();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.isToggled !== prevProps.isToggled || this.props.id !== prevProps.id) {
+      console.log('fetch habits!')
+      this.props.getHabits();
+    }
+  }
+
   render() {
-    const { classes, habits, transition } = this.props;
+    const { habits, loading } = this.props;
+    if (habits.length < 1 && loading === false ) return <Empty />
     return (
-      // <Grow in={transition}>
-      <main>
-        <div className={classes.drawerHeader} />
-        {habits.map(habit => 
-          <Habit
-            habit={habit}
-            key={habit._id}
-          />
-        )}
-      </main>
-      // </Grow>
+      <div>
+        {habits.map(habit => <Habit habit={habit} key={habit._id} />)}
+      </div>
     )
   }
 }
 
-export default withStyles(styles)(HabitList);
+const mapStateToProps = (state) => {
+  return {
+    isToggled: state.habit.todayRecordChanged,
+    id: state.habit.changedHabitID,
+    loading: state.habit.loading
+  }
+}
+
+export default connect(mapStateToProps, {})(withStyles(styles)(HabitList));

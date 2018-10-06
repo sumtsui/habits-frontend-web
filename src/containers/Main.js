@@ -1,93 +1,58 @@
 import React, { Component } from 'react';
 import HabitList from '../components/HabitList';
 import NewHabit from '../components/NewHabit';
-import ManageContainer from '../components/ManageContainer';
+import Manage from './Manage';
 import Navbar from '../components/Navbar';
 import Menu from '../components/Menu';
+import { withStyles } from '@material-ui/core/styles';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getThisWeekData } from '../utils';
-
 import { getHabits } from '../actions';
 
-const habits = [
-  {
-    title: 'Run',
-    lastWeek: 2,
-    thisMonth: 5,
-    lastMonth: 8,
-    thisWeek: [ 0, 2 ],
-    isGood: true,
-    id: 'ed8s03'
+const styles = theme => ({
+  drawerHeader: {
+    ...theme.mixins.toolbar,
   },
-  {
-    title: 'Smoking',
-    lastWeek: 3,
-    thisMonth: 3,
-    lastMonth: 11,
-    isGood: false,
-    thisWeek: [ 4 ],
-    id: 'ed8s05'
-  }
-]
+});
 
 class Main extends Component {
 
-  state = {
-    transition: false,
-  }
-
-  componentDidMount() {
-    // this.props.getHabits();
-  }
-
-  // animation
-  onBack = () => this.setState({ transition: false });
-  onIn = () => this.setState({ transition: true });
-
   render() {
-    const { history, location, habits, loading, getHabits } = this.props;
-    const { transition } = this.state;
+    const { history, location, habits, loading, getHabits, classes, authLoading } = this.props;
 
     return (
 
       <div>
-
         <Navbar
-          // onBack={this.onBack}
           history={history}
           location={location}
-          // transition={transition}
+          loading={loading}
+          authLoading={authLoading}
         />
-
         <Route exact path={`/`} render={() =>
-          <Menu
-            // onIn={this.onIn}
-          />
+          <Menu />
         } />
 
-        <Route exact path={`/`} render={() =>
-          <HabitList
-            habits={habits}
-            getHabits={getHabits}
-            // transition={!transition} 
-          />
-        } />
-
-        <Route path={`/new-habit`} render={({history}) =>
-          <NewHabit
-            // transition={transition}
-            history={history}
-          />
-        } />
-
-        <Route path={`/manage-habits`} render={({history}) =>
-          <ManageContainer
-            // transition={transition}
-            history={history}
-          />
-        } />
-
+        <main>
+          <div className={classes.drawerHeader} />
+          <Route exact path={`/`} render={() =>
+            <HabitList
+              habits={habits}
+              getHabits={getHabits}
+            />
+          } />
+          <Route path={`/new-habit`} render={({history}) =>
+            <NewHabit
+              history={history}
+            />
+          } />
+          <Route path={`/manage-habits`} render={({history}) =>
+            <Manage
+              habits={habits}
+              history={history}
+            />
+          } />
+        </main>
       </div>
     )
   }
@@ -98,8 +63,9 @@ const mapStateToProps = state => {
   return {
     habits: habit.habits,
     loading: habit.loading,
-    isLogin: auth.isLogin
+    isLogin: auth.isLogin,
+    authLoading: auth.loading
   }
 }
 
-export default connect(mapStateToProps, { getHabits })(Main);
+export default connect(mapStateToProps, { getHabits })(withStyles(styles)(Main));

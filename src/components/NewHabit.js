@@ -8,17 +8,14 @@ import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbUpOutlined from '@material-ui/icons/ThumbUpOutlined';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import ThumbDownOutlined from '@material-ui/icons/ThumbDownOutlined';
-import Grow from "@material-ui/core/Grow";
 import classNames from 'classnames';
 import Button from "@material-ui/core/Button";
+import Hintbar from './Hintbar'
 import { connect } from 'react-redux';
 
 import { addNewHabit } from '../actions';
 
 const styles = theme => ({
-  drawerHeader: {
-    ...theme.mixins.toolbar,
-  },
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -61,20 +58,23 @@ class NewHabit extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    const { title, kind } = this.state;
+    let isGood;
+    if (kind === 'good') isGood = 1;
+    else if (kind === 'bad') isGood = 0;
+
     const data = {
-      title: this.state.title,
-      isGood: this.state.kind === 'good' ? 1 : 0
+      title,
+      isGood
     }
     this.props.addNewHabit(data, this.props.history);
   }
 
   render() {
 
-    const { classes, transition } = this.props;
+    const { classes, error } = this.props;
     return (
-      // <Grow in={transition}>
-      <main>
-        <div className={classes.drawerHeader} />
+      <div>
         <form className={classes.container} noValidate autoComplete="off" onSubmit={this.onSubmit}>
           <FormGroup row className={classes.formItem}>
             <TextField
@@ -126,14 +126,16 @@ class NewHabit extends Component {
             />
           </FormGroup>
         </form>
-      </main>
-      // </Grow>
+        <Hintbar message={error} variant='warning' />
+      </div>
     )
   }
 }
 
 const mapStateToProps = state => {
-  return state;
+  return {
+    error: state.habit.error
+  };
 }
 
 export default connect(mapStateToProps, { addNewHabit })(withStyles(styles)(NewHabit));

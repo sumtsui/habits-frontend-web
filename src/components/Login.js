@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
 import { Link, Redirect } from 'react-router-dom';
-// Actions
+import Input from '@material-ui/core/Input';
+import Hintbar from './Hintbar';
+
 import { onTextChanged, loginUser } from '../actions/';
 
 const styles = theme => ({
@@ -23,45 +24,49 @@ const styles = theme => ({
   },
   newAccountButton: {
     marginTop: theme.spacing.unit * 10
-  }
-
+  },
+  input: {
+    margin: theme.spacing.unit,
+  },
 });
 
 class Login extends Component {
 
+  state = {
+    HintkbarOpen: false
+  }
+
   render() {
-    const { classes, onTextChanged, email, password, loginUser, isLogin, match } = this.props;
+    const { classes, onTextChanged, email, password, loginUser, isLogin, match, error} = this.props;
 
     if (isLogin) {
-      return <Redirect to='/' />;
+      return <Redirect to='/' />
     }
 
     return (
-      <form className={classes.root} >
+      <form className={classes.root}>
         <Typography
           variant="display3"
-          className={classes.title}
-        >
+          className={classes.title} >
           Habits
         </Typography>
-        <TextField
+        <Input
           name='email'
-          label="Email"
-          value={email}
+          placeholder="Email"
+          className={classes.input}
+          inputProps={{ 'aria-label': 'email', }}
           onChange={onTextChanged}
-          margin="normal"
-          variant="outlined"
           type='email'
-          autoFocus
+          value={email}
         />
-        <TextField
+        <Input
           name='password'
-          label="Password"
-          value={password}
+          placeholder="Password"
+          className={classes.input}
+          inputProps={{ 'aria-label': 'password', }}
           onChange={onTextChanged}
-          margin="normal"
-          variant="outlined"
           type='password'
+          value={password}
         />
         <Button
           color="primary"
@@ -79,6 +84,7 @@ class Login extends Component {
           to={`${match.url}/signup`}
           className={classes.newAccountButton}
         />
+        <Hintbar message={error} variant='error' />
       </form>
     )
   }

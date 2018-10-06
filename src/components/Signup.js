@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import Input from '@material-ui/core/Input';
+import { connect } from 'react-redux';
+import { onTextChanged, signupUser } from '../actions/';
+import Hintbar from './Hintbar';
+import ProgressBar from './ProgressBar';
 
 const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: theme.spacing.unit * 10
+    marginTop: theme.spacing.unit * 10,
   },
   title: {
     marginBottom: theme.spacing.unit * 4
@@ -20,15 +24,24 @@ const styles = theme => ({
   },
   newAccountButton: {
     marginTop: theme.spacing.unit * 10
+  },
+  input: {
+    margin: theme.spacing.unit,
+  },
+  progress: {
+    width: '100%'
   }
-
 });
 
 class Signup extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, signupUser, email, password, repeatPassword, onTextChanged, isLogin, error, loading } = this.props;
+
+    if (isLogin) return <Redirect to='/' />;
 
     return (
+      <div>
+      {!loading || <ProgressBar />}
       <main className={classes.root} >
         <Typography
           variant="display3"
@@ -36,35 +49,39 @@ class Signup extends Component {
         >
           Habits
         </Typography>
-        <TextField
-          // id="new-habit-title"
-          label="Email"
-          // value={this.state.name}
-          // onChange={this.onTextChange}
-          margin="normal"
-          variant="outlined"
+        <Input
+          name='email'
+          value={email}
+          placeholder="Email"
+          className={classes.input}
+          inputProps={{ 'aria-label': 'email', }}
+          onChange={onTextChanged}
+          type='email'
         />
-        <TextField
-          // id="new-habit-title"
-          label="Password"
-          // value={this.state.name}
-          // onChange={this.onTextChange}
-          margin="normal"
-          variant="outlined"
+        <Input
+          value={password}
+          name='password'
+          placeholder="Password"
+          className={classes.input}
+          inputProps={{ 'aria-label': 'password', }}
+          onChange={onTextChanged}
+          type='password'
         />
-        <TextField
-          // id="new-habit-title"
-          label="Confirm Password"
-          // value={this.state.name}
-          // onChange={this.onTextChange}
-          margin="normal"
-          variant="outlined"
+        <Input
+          value={repeatPassword}
+          name='repeatPassword'
+          placeholder="Repeat password"
+          className={classes.input}
+          inputProps={{ 'aria-label': 'repeat password', }}
+          onChange={onTextChanged}
+          type='password'
         />
         <Button
           color="primary"
           children='Sign Up'
           variant='contained'
           className={classes.loginButton}
+          onClick={() => signupUser({ email, password, repeatPassword })}
         />
         <Button
           color="primary"
@@ -74,9 +91,23 @@ class Signup extends Component {
           to='/login'
           className={classes.newAccountButton}
         />
+        <Hintbar open={error ? true : false} message={error} variant='error' />
       </main>
+      </div>
     )
   }
 }
 
-export default withStyles(styles)(Signup);
+const mapStateToProps = state => {
+  const { auth } = state;
+  return {
+    email: auth.email,
+    password: auth.password,
+    repeatPassword: auth.repeatPassword,
+    error: auth.error,
+    loading: auth.loading,
+    isLogin: auth.isLogin
+  }
+}
+
+export default connect(mapStateToProps, { onTextChanged, signupUser })(withStyles(styles)(Signup));

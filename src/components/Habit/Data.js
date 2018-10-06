@@ -9,7 +9,8 @@ const styles = {
 };
 
 const Data = props => {
-  const {classes, lastWeek, thisMonth, lastMonth} = props;
+  const { classes, lastWeek, thisMonth, lastMonth } = props;
+
   return (
     <div className={classes.root}>
       <Typography variant="subheading" color="textSecondary">

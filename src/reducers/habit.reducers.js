@@ -1,52 +1,51 @@
 import {
-  HABIT_START_ASYNC,
+  HABIT_ASYNC_START,
   HABIT_GET_ALL_DONE,
-  HABIT_GET_ALL_START,
   HABIT_ADD_NEW_DONE,
-  HABIT_ADD_NEW_START,
-  HABIT_SAVE_CHANGE_START,
   HABIT_SAVE_CHANGE_DONE,
-  HABIT_RECORD,
-  HABIT_RECORD_UNDO,
-  HABIT_DELETE_DONE
+  HABIT_RECORD_DONE,
+  HABIT_RECORD_UNDO_DONE,
+  HABIT_DELETE_DONE,
+  AUTH_LOGOUT_DONE,
+  HABIT_ASYNC_FAIL
 } from '../actions/ActionTypes';
 
 import { 
   getThisWeekData, 
   getLastWeekData, 
   getLastMonthData, 
-  getThisMonthData
+  getThisMonthData,
+  capFirstLetter
 } from '../utils';
 
 const initialState = {
   habits: [],
   loading: false,
+  isHabitDeleted: false,
+  todayRecordChanged: false,
+  changedHabitID: '',
+  deletedHabitID: '',
+  error: ''
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
 
-    case HABIT_GET_ALL_START:
+    case HABIT_ASYNC_START:
       return {
         ...state,
-        loading: true
-      }
-
-    case HABIT_START_ASYNC:
-      return {
-        ...state,
-        loading: true
+        loading: true,
+        error: ''
       }
 
     case HABIT_GET_ALL_DONE:
-      const dayOftheWeek = (new Date().getDay() === 0) ? 7 : new Date().getDay();
       const habits = action.payload.map(habit => ({
         ...habit,
+        title: capFirstLetter(habit.title),
         thisWeek: getThisWeekData(habit.records),
         lastWeek: getLastWeekData(habit.records),
         thisMonth: getThisMonthData(habit.records),
         lastMonth: getLastMonthData(habit.records),
-        recorded: getThisWeekData(habit.records).includes(dayOftheWeek) ? true : false
       }));
       return {
         ...state,
@@ -54,24 +53,11 @@ export default (state = initialState, action) => {
         loading: false
       }
 
-    case HABIT_ADD_NEW_START:
-      return {
-        ...state,
-        loading: true,
-      }
-
     case HABIT_ADD_NEW_DONE:
       return {
         ...state,
         loading: false,
       }
-
-    case HABIT_SAVE_CHANGE_START: {
-      return {
-        ...state,
-        loading: true
-      }
-    }
     
     case HABIT_SAVE_CHANGE_DONE:
       return {
@@ -79,32 +65,41 @@ export default (state = initialState, action) => {
         loading: false
       }
 
-    case HABIT_RECORD:
-      const a = state.habits.map(i => {
-        if (i._id === action.payload) i.recorded = true
-        return i;
-      })
-      console.log(a.filter(i => i._id === action.payload))
+    case HABIT_RECORD_DONE:
       return {
         ...state,
-        habits: a
+        todayRecordChanged: action.payload.bool,
+        changedHabitID: action.payload.id,
+        loading: false
       }
 
-    case HABIT_RECORD_UNDO:
-      const b = state.habits.map(i => {
-        if (i._id === action.payload) i.recorded = false;
-        return i;
-      })
-      console.log(b.filter(i => i._id === action.payload))
+    case HABIT_RECORD_UNDO_DONE:
       return {
         ...state,
-        habits: b
+        todayRecordChanged: action.payload.bool,
+        changedHabitID: action.payload.id,
+        loading: false
       }
 
     case HABIT_DELETE_DONE: 
       return {
         ...state,
+        deletedHabitID: action.payload,
+        loading: false,
+      }
+    
+    // prevent when sign in with another account with no habit and see previous account's habits
+    case AUTH_LOGOUT_DONE: 
+      return {
+        ...state,
+        habits: [],
         loading: false
+      }
+    
+    case HABIT_ASYNC_FAIL:
+      return {
+        ...state,
+        error: action.payload
       }
     
     default:
