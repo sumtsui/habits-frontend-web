@@ -1,9 +1,10 @@
 import * as types from './ActionTypes';
+import config from '../config';
 
 export const getHabits = () => {
   return (dispatch) => {
     dispatch({ type: types.HABIT_ASYNC_START });
-    fetch('http://localhost:3000/api/v1/habits/all', { credentials: "include" })
+    fetch(`${config.route}/api/v1/habits/all`, { credentials: "include" })
       .then(res => res.json())
       .then(json => {
         // Sort habits by pos
@@ -22,7 +23,7 @@ export const getHabits = () => {
 export const addNewHabit = (data, history) => {
   return (dispatch) => {
     dispatch({ type: types.HABIT_ASYNC_START });
-    fetch('http://localhost:3000/api/v1/habits/new', {
+    fetch(`${config.route}/api/v1/habits/new`, {
       method: "POST",
       mode: "cors", 
       credentials: "include", 
@@ -51,7 +52,7 @@ export const saveChange = (data, history) => {
 
   return (dispatch) => {
     dispatch({ type: types.HABIT_ASYNC_START });
-    fetch('http://localhost:3000/api/v1/habits/save-all', {
+    fetch(`${config.route}/api/v1/habits/save-all`, {
       method: "PUT",
       mode: "cors",
       credentials: "include",
@@ -71,7 +72,7 @@ export const saveChange = (data, history) => {
 export const recordHabit = (id, bool) => {
   return (dispatch) => {
     dispatch({ type: types.HABIT_ASYNC_START });
-    fetch(`http://localhost:3000/api/v1/habits/${id}/records/new`, {
+    fetch(`${config.route}/api/v1/habits/${id}/records/new`, {
       method: "POST",
       mode: "cors",
       credentials: "include",
@@ -91,7 +92,7 @@ export const recordHabit = (id, bool) => {
 export const undoRecordHabit = (id, bool) => {
   return (dispatch) => {
     dispatch({ type: types.HABIT_ASYNC_START });
-    fetch(`http://localhost:3000/api/v1/habits/${id}/records/`, {
+    fetch(`${config.route}/api/v1/habits/${id}/records/`, {
       method: "DELETE",
       mode: "cors",
       credentials: "include",
@@ -111,7 +112,7 @@ export const undoRecordHabit = (id, bool) => {
 export const deleteHabit = id => {
   return (dispatch) => {
     dispatch({ type: types.HABIT_ASYNC_START });
-    fetch(`http://localhost:3000/api/v1/habits/${id}/`, {
+    fetch(`${config.route}/api/v1/habits/${id}/`, {
       method: "DELETE",
       mode: "cors",
       credentials: "include",

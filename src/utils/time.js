@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export const getThisWeekData = record => {
-  const mondayStart = moment().day(1).startOf('day');
+  const mondayStart = moment().startOf('isoWeek');
   return (
     record
       .map(i => new Date(i))

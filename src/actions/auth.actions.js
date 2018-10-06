@@ -1,4 +1,5 @@
 import * as types from './ActionTypes';
+import config from '../config';
 
 export const onTextChanged = e => ({
   type: types.AUTH_TEXT_CHANGED,
@@ -8,7 +9,7 @@ export const onTextChanged = e => ({
 export const loginUser = (data) => {
   return (dispatch) => {
     dispatch({ type: types.AUTH_ASYNC_START });
-    fetch('http://localhost:3000/api/v1/users/log-in', {
+    fetch(`${config.route}/api/v1/users/log-in`, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, cors, *same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -30,7 +31,7 @@ export const loginUser = (data) => {
 export const logoutUser = () => {
   return (dispatch) => {
     dispatch({ type: types.AUTH_ASYNC_START });
-    fetch('http://localhost:3000/api/v1/users/log-out', { credentials: "include" })
+    fetch(`${config.route}/api/v1/users/log-out`, { credentials: "include" })
       .then(res => res.json())
       .then(json => dispatch({ type: types.AUTH_LOGOUT_DONE }))
       .catch(console.log);
@@ -40,7 +41,7 @@ export const logoutUser = () => {
 export const signupUser = data => {
   return (dispatch) => {
     dispatch({ type: types.AUTH_ASYNC_START });
-    fetch('http://localhost:3000/api/v1/users/sign-up', {
+    fetch(`${config.route}/api/v1/users/sign-up`, {
       method: "POST", 
       mode: "cors", 
       credentials: "include",
