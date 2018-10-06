@@ -6,7 +6,7 @@ import theme from '../theme';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-process.env.NODE_ENV = 'production';
+console.log('ENV', process.env.NODE_ENV)
 
 class App extends Component {
 

@@ -37,7 +37,6 @@ class Login extends Component {
   }
 
   render() {
-    console.log('ENV', process.env.NODE_ENV)
     const { classes, onTextChanged, email, password, loginUser, isLogin, match, error} = this.props;
 
     if (isLogin) {
