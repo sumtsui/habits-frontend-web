@@ -17,6 +17,21 @@ const styles = theme => ({
 
 class Main extends Component {
 
+  componentDidMount() {
+    this.props.getHabits();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { changeSaved, habitAdded } = this.props;
+    console.log('Main component updated!');
+    // console.log('prevProps', prevProps.changeSaved);
+    // console.log('curProps', this.props.changeSaved);
+    if (prevProps.changeSaved !== changeSaved 
+    || prevProps.habitAdded !== habitAdded) {
+      console.log('Main fetching data');
+      this.props.getHabits();
+    }
+  }
 
   render() {
     const { history, location, habits, loading, getHabits, classes, authLoading } = this.props;
@@ -47,10 +62,11 @@ class Main extends Component {
               history={history}
             />
           } />
-          <Route path={`/manage-habits`} render={({history}) =>
+          <Route path={`/manage-habits`} render={({history, location}) =>
             <Manage
               habits={habits}
               history={history}
+              location={location}
             />
           } />
         </main>
@@ -64,6 +80,8 @@ const mapStateToProps = state => {
   return {
     habits: habit.habits,
     loading: habit.loading,
+    changeSaved: habit.changeSaved,
+    habitAdded: habit.habitAdded,
     isLogin: auth.isLogin,
     authLoading: auth.loading
   }

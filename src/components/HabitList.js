@@ -11,13 +11,12 @@ const styles = theme => ({
 class HabitList extends Component {
 
   componentDidMount() {
-    console.log('componentDidMount fetch habits!')
-    this.props.getHabits();
+    
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.isToggled !== prevProps.isToggled || this.props.id !== prevProps.id) {
-      console.log('componentDidUpdate fetch habits!')
+      console.log('HabitList componentDidUpdate fetch habits!')
       this.props.getHabits();
     }
   }

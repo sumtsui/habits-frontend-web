@@ -11,13 +11,33 @@ const styles = {
   },
 };
 
+// const today = (new Date().getDate() === 0) ? 7 : new Date().getDay();
+
 class Habit extends Component {
+
+  state = {
+    // todayLogged: this.props.habit.thisWeek.includes(today) ? true : false
+  }
+
+  // componentDidMount() {
+  //   console.log('Habit mounted!');
+  // }
+
+  // componentDidUpdate(prevProps) {
+  //   console.log('Habit updated!', this.props.habit.title);
+  //   console.log('habit curProp thisweek', this.props.habit.thisWeek)
+  //   console.log('habit prevProp thisweek', prevProps.habit.thisWeek)
+  //   if (this.props.habit.thisWeek !== prevProps.habit.thisWeek) {
+  //     console.log(today);
+  //     this.setState({ todayLogged: this.props.habit.thisWeek.includes(today) ? true : false })
+  //   }
+  // }
 
   render() {
     const { habit, classes } = this.props;
-    const today = (new Date().getDate() === 0) ? 7 : new Date().getDate();
-    const todayLogged = habit.thisWeek.includes(today) ? true : false;
-    
+    // const { todayLogged } = this.state;
+    const today = (new Date().getDate() === 0) ? 7 : new Date().getDay();
+    const todayLogged = this.props.habit.thisWeek.includes(today) ? true : false
     return (
       <div className={classes.root}>
         <Header

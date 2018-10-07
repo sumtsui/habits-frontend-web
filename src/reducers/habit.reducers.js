@@ -7,7 +7,7 @@ import {
   HABIT_RECORD_UNDO_DONE,
   HABIT_DELETE_DONE,
   AUTH_LOGOUT_DONE,
-  HABIT_ASYNC_FAIL
+  HABIT_ASYNC_FAIL,
 } from '../actions/ActionTypes';
 
 import { 
@@ -25,7 +25,9 @@ const initialState = {
   todayRecordChanged: false,
   changedHabitID: '',
   deletedHabitID: '',
-  error: ''
+  error: '',
+  changeSaved: false,
+  habitAdded: false
 }
 
 export default (state = initialState, action) => {
@@ -35,7 +37,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        error: ''
+        error: '',
+        changeSaved: false,
+        habitAdded: false
       }
 
     case HABIT_GET_ALL_DONE:
@@ -57,12 +61,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        habitAdded: true, 
       }
-    
+
     case HABIT_SAVE_CHANGE_DONE:
       return {
         ...state,
-        loading: false
+        loading: false,
+        changeSaved: true
       }
 
     case HABIT_RECORD_DONE:

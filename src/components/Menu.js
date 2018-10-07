@@ -38,7 +38,7 @@ const styles = theme => ({
 });
 
 const Menu = props => {
-  const { classes, open, theme, onMenuClose, onIn, onPromptOpen, logoutUser } = props;
+  const { classes, open, theme, onMenuClose, onPromptOpen, logoutUser } = props;
 
   const MenuItems = (
       <List>   

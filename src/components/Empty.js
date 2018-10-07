@@ -11,7 +11,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    height: '80vh',
+    minHeight: '80vh',
     marginLeft: 2 * theme.spacing.unit,
     marginRight: 2 * theme.spacing.unit,
   },

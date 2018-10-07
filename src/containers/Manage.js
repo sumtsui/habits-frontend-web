@@ -5,10 +5,19 @@ import ManageList from '../components/ManageList';
 import ConfirmPrompt from '../components/ConfirmPrompt';
 import { connect } from 'react-redux';
 import { saveChange, deleteHabit, onPromptOpen, getHabits } from '../actions';
-import Empty from '../components/Empty';
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
-
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    minHeight: '80vh',
+  },
+  content: {
+    textAlign: 'center',
+    color: theme.palette.text.hint
+  },
 });
 
 class Manage extends Component {
@@ -46,10 +55,19 @@ class Manage extends Component {
   }
 
   render() {
-    const { classes, deleteHabit, onPromptOpen, loading } = this.props;
+    const { classes, deleteHabit, onPromptOpen } = this.props;
     const { items, toBeDeleted } = this.state;
     
-    if (items.length < 1) return <Empty />
+    if (items.length < 1) return (
+      <div className={classes.root} >
+        <Typography
+          className={classes.content}
+          variant="body1"
+        >
+          No habit created yet.
+        </Typography>
+      </div>
+    )
 
     return (
       <div>

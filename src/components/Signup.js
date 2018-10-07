@@ -13,7 +13,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: theme.spacing.unit * 10,
+    marginTop: theme.spacing.unit * 8,
   },
   title: {
     marginBottom: theme.spacing.unit * 4
@@ -55,6 +55,7 @@ class Signup extends Component {
           inputProps={{ 'aria-label': 'email', }}
           onChange={onTextChanged}
           type='email'
+          disabled={loading ? true : false}
         />
         <Input
           value={password}
@@ -90,7 +91,7 @@ class Signup extends Component {
           to='/login'
           className={classes.newAccountButton}
         />
-        <Hintbar open={error ? true : false} message={error} variant='error' />
+        <Hintbar open={error ? true : false} message={error} variant='warning' />
       </form>
       </div>
     )

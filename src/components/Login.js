@@ -14,7 +14,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: theme.spacing.unit * 10,
+    marginTop: theme.spacing.unit * 8,
   },
   title: {
     marginBottom: theme.spacing.unit * 4,
@@ -88,7 +88,7 @@ class Login extends Component {
           to={`${match.url}/signup`}
           className={classes.newAccountButton}
         />
-        <Hintbar message={error} variant='error' />
+        <Hintbar message={error} variant='warning' />
       </form>
     )
   }
