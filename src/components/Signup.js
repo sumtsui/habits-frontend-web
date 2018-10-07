@@ -40,7 +40,7 @@ class Signup extends Component {
 
     return (
       <div>
-      <main className={classes.root} >
+      <form className={classes.root} >
         <Typography
           variant="display3"
           className={classes.title}
@@ -79,7 +79,8 @@ class Signup extends Component {
           children='Sign Up'
           variant='contained'
           className={classes.loginButton}
-          onClick={() => signupUser({ email, password, repeatPassword })}
+          onClick={(e) => signupUser(e, { email, password, repeatPassword })}
+          type='submit'
         />
         <Button
           color="primary"
@@ -90,7 +91,7 @@ class Signup extends Component {
           className={classes.newAccountButton}
         />
         <Hintbar open={error ? true : false} message={error} variant='error' />
-      </main>
+      </form>
       </div>
     )
   }

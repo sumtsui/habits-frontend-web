@@ -36,7 +36,8 @@ export const logoutUser = () => {
   }
 }
 
-export const signupUser = data => {
+export const signupUser = (e, data) => {
+  e.preventDefault();
   return (dispatch) => {
     dispatch({ type: types.AUTH_ASYNC_START });
     fetch(`${config.route}/api/v1/users/sign-up`, {
