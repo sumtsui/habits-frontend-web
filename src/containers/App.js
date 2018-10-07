@@ -15,7 +15,7 @@ class App extends Component {
     const { isLogin } = this.props;
 
     return (
-      <div className='app-wrapper'>
+      <div>
       <MuiThemeProvider theme={theme} >
         <BrowserRouter>
             

@@ -23,7 +23,7 @@ class Main extends Component {
 
     return (
 
-      <div>
+      <div className='main-wrapper'>
         <Navbar
           history={history}
           location={location}
