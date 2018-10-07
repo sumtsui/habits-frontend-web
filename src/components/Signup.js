@@ -25,7 +25,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 10
   },
   input: {
-    margin: theme.spacing.unit,
+    margin: 3 * theme.spacing.unit,
   },
   progress: {
     width: '100%'

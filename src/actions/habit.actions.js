@@ -38,7 +38,7 @@ export const addNewHabit = (data, history) => {
         if (json.error) dispatch({ type: types.HABIT_ASYNC_FAIL, payload: json.error });
         else {
           dispatch({ type: types.HABIT_ADD_NEW_DONE })
-          history.goBack();
+          history.push('/');
         }
       })
       .catch(console.log);

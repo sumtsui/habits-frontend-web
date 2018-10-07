@@ -26,7 +26,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 10
   },
   input: {
-    margin: theme.spacing.unit,
+    margin: 3 * theme.spacing.unit,
   },
 });
 
@@ -51,6 +51,7 @@ class Login extends Component {
           Habits
         </Typography>
         <Input
+          autoFocus
           name='email'
           placeholder="Email"
           className={classes.input}
@@ -75,8 +76,8 @@ class Login extends Component {
           children='Login'
           variant='contained'
           className={classes.loginButton}
-          onClick={() => loginUser({email, password})}
-          // type='submit'
+          onClick={(e) => loginUser(e, {email, password})}
+          type='submit'
           disabled={loading ? true : false}
         />
         <Button

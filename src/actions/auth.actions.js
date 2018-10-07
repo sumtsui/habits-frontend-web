@@ -6,7 +6,8 @@ export const onTextChanged = e => ({
   payload: e
 });
 
-export const loginUser = (data) => {
+export const loginUser = (e, data) => {
+  e.preventDefault();
   return (dispatch) => {
     dispatch({ type: types.AUTH_ASYNC_START });
     fetch(`${config.route}/api/v1/users/log-in`, {
