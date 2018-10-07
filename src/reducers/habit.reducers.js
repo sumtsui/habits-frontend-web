@@ -99,7 +99,8 @@ export default (state = initialState, action) => {
     case HABIT_ASYNC_FAIL:
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
+        loading: false
       }
     
     default:

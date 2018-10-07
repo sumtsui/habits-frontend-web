@@ -7,7 +7,6 @@ import Input from '@material-ui/core/Input';
 import { connect } from 'react-redux';
 import { onTextChanged, signupUser } from '../actions/';
 import Hintbar from './Hintbar';
-import ProgressBar from './ProgressBar';
 
 const styles = theme => ({
   root: {
@@ -41,7 +40,6 @@ class Signup extends Component {
 
     return (
       <div>
-      {!loading || <ProgressBar />}
       <main className={classes.root} >
         <Typography
           variant="display3"

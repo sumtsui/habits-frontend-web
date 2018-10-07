@@ -37,14 +37,14 @@ class Login extends Component {
   }
 
   render() {
-    const { classes, onTextChanged, email, password, loginUser, isLogin, match, error} = this.props;
+    const { classes, onTextChanged, email, password, loginUser, isLogin, match, error, loading} = this.props;
 
     if (isLogin) {
       return <Redirect to='/' />
     }
 
     return (
-      <form className={classes.root}>
+      <form className={classes.root} >
         <Typography
           variant="display3"
           className={classes.title} >
@@ -58,6 +58,7 @@ class Login extends Component {
           onChange={onTextChanged}
           type='email'
           value={email}
+          disabled={loading ? true : false}
         />
         <Input
           name='password'
@@ -67,6 +68,7 @@ class Login extends Component {
           onChange={onTextChanged}
           type='password'
           value={password}
+          disabled={loading ? true : false}
         />
         <Button
           color="primary"
@@ -75,6 +77,7 @@ class Login extends Component {
           className={classes.loginButton}
           onClick={() => loginUser({email, password})}
           // type='submit'
+          disabled={loading ? true : false}
         />
         <Button
           color="primary"
