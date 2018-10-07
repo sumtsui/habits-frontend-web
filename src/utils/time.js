@@ -11,8 +11,8 @@ export const getThisWeekData = record => {
 }
 
 export const getLastWeekData = record => {
-  const lastMondayStart = moment().day(-6).startOf('day');
-  const lastSundayEnd = moment().day(0).endOf('day');
+  const lastMondayStart = moment().startOf('isoWeek').subtract(7, 'days');
+  const lastSundayEnd = moment().endOf('isoWeek').subtract(7, 'days');
   return (
     record
       .map(i => new Date(i))
@@ -22,7 +22,7 @@ export const getLastWeekData = record => {
 }
 
 export const getThisMonthData = record => {
-  const monthStart = moment().date(1).startOf('day');
+  const monthStart = moment().startOf('month');
   return (
     record
       .map(i => new Date(i))

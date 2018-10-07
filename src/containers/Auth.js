@@ -4,15 +4,23 @@ import Signup from '../components/Signup';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ProgressBar from '../components/ProgressBar';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+  drawerHeader: {
+    ...theme.mixins.toolbar,
+  },
+});
 
 class Auth extends Component {
   render() {
 
-    const { transition, match, loading } = this.props;
+    const { transition, match, loading, classes } = this.props;
 
     return (
       <div>
         {loading ? <ProgressBar /> : null}
+        <div className={classes.drawerHeader} />
         <Route path={`${match.url}/login`} render={() =>
           <Login
             transition={transition}
@@ -38,4 +46,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {})(Auth);
+export default connect(mapStateToProps, {})(withStyles(styles)(Auth));

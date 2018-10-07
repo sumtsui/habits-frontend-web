@@ -46,7 +46,7 @@ class Navbar extends Component {
 
     return (
       // Interesting logic here 'transition' and '!transition'
-      <AppBar className={classNames(classes.appBar, 'habit-app-bar')} position='absolute' >
+      <AppBar className={classNames(classes.appBar, 'habit-app-bar')} position='fixed' >
         {
           (location.pathname === '/') ?
             <Toolbar>
