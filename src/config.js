@@ -1,7 +1,7 @@
 const env = process.env.NODE_ENV;
 
 const development = {
-  route: 'https://habits-backend.herokuapp.com'
+  route: 'http://localhost:3000'
 };
 
 const test = {

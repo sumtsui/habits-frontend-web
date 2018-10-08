@@ -17,7 +17,7 @@ class HabitList extends Component {
     if (habits.length < 1 && loading === false ) return <Empty />
     return (
       <div>
-        {habits.map(habit => <Habit habit={habit} key={habit._id} />)}
+        {habits.map(habit => <Habit habit={habit} loading={loading} key={habit._id} />)}
       </div>
     )
   }

@@ -26,7 +26,7 @@ class Habit extends Component {
   }
 
   render() {
-    const { habit } = this.props;
+    const { habit, loading } = this.props;
     // const { todayLogged } = this.state;
     const today = (new Date().getDate() === 0) ? 7 : new Date().getDay();
     const todayLogged = this.props.habit.thisWeek.includes(today) ? true : false
@@ -37,6 +37,7 @@ class Habit extends Component {
           _id={habit._id}
           isGood={habit.isGood}
           todayLogged={todayLogged}
+          loading={loading}
         />
         <Week
           isGood={habit.isGood}

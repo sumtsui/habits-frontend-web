@@ -8,6 +8,7 @@ import {
   HABIT_DELETE_DONE,
   AUTH_LOGOUT_DONE,
   HABIT_ASYNC_FAIL,
+  HABIT_RECORD_TOGGLED
 } from '../actions/ActionTypes';
 
 import { 
@@ -27,7 +28,8 @@ const initialState = {
   deletedHabitID: '',
   error: '',
   changeSaved: false,
-  habitAdded: false
+  habitAdded: false,
+  toggledHabitID: ''
 }
 
 export default (state = initialState, action) => {
@@ -85,6 +87,12 @@ export default (state = initialState, action) => {
         todayRecordChanged: action.payload.bool,
         changedHabitID: action.payload.id,
         loading: false
+      }
+
+    case HABIT_RECORD_TOGGLED: 
+      return {
+        ...state,
+        toggledHabitID: action.payload,
       }
 
     case HABIT_DELETE_DONE: 

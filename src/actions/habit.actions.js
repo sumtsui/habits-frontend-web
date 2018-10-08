@@ -68,8 +68,9 @@ export const saveChange = (data, history) => {
   }
 }
 
-export const recordHabit = (id, bool) => {
+export const recordHabit = (target, id) => {
   return (dispatch) => {
+    dispatch({ type: types.HABIT_RECORD_TOGGLED, payload: id });
     dispatch({ type: types.HABIT_ASYNC_START });
     fetch(`${config.route}/api/v1/habits/${id}/records/new`, {
       method: "POST",
@@ -81,15 +82,17 @@ export const recordHabit = (id, bool) => {
       .then(json => {
         dispatch({ 
           type: types.HABIT_RECORD_DONE,
-          payload: { bool, id }
+          payload: { bool: target.checked, id }
         })
       })
       .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
   }
 }
 
-export const undoRecordHabit = (id, bool) => {
+export const undoRecordHabit = (target, id) => {
+  
   return (dispatch) => {
+    dispatch({ type: types.HABIT_RECORD_TOGGLED, payload: id });
     dispatch({ type: types.HABIT_ASYNC_START });
     fetch(`${config.route}/api/v1/habits/${id}/records/`, {
       method: "DELETE",
@@ -99,9 +102,10 @@ export const undoRecordHabit = (id, bool) => {
     })
       .then(res => res.json())
       .then(json => {
+        target.disabled = false;
         dispatch({ 
           type: types.HABIT_RECORD_UNDO_DONE,
-          payload: { bool, id }
+          payload: { bool: target.checked, id }
         })
       })
       .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
@@ -110,7 +114,7 @@ export const undoRecordHabit = (id, bool) => {
 
 export const deleteHabit = id => {
   return (dispatch) => {
-    dispatch({ type: types.HABIT_ASYNC_START });
+    dispatch({ type: types.HABIT_ASYNC_START, payload: id });
     fetch(`${config.route}/api/v1/habits/${id}/`, {
       method: "DELETE",
       mode: "cors",
