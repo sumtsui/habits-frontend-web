@@ -78,7 +78,8 @@ export default (state = initialState, action) => {
         ...state,
         todayRecordChanged: action.payload.bool,
         changedHabitID: action.payload.id,
-        loading: false
+        loading: false,
+        toggledHabitID: ''
       }
 
     case HABIT_RECORD_UNDO_DONE:
@@ -86,7 +87,8 @@ export default (state = initialState, action) => {
         ...state,
         todayRecordChanged: action.payload.bool,
         changedHabitID: action.payload.id,
-        loading: false
+        loading: false,
+        toggledHabitID: ''
       }
 
     case HABIT_RECORD_TOGGLED: 
