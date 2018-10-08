@@ -1,5 +1,7 @@
 import * as types from './ActionTypes';
 import config from '../config';
+console.log('config.route', config.route);
+console.log('HEROKU', process.env.HEROKU);
 
 export const getHabits = () => {
   return (dispatch) => {
