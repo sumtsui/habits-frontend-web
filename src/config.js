@@ -1,5 +1,5 @@
 const env = process.env.NODE_ENV;
-const devRoute = process.env.HEROKU ? 'https://habits-backend.herokuapp.com' : 'http://localhost:3000';
+const devRoute = process.env.REACT_APP_HEROKU ? 'https://habits-backend.herokuapp.com' : 'http://localhost:3000';
 
 const development = {
   route: devRoute
