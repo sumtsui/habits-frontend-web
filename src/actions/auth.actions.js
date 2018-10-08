@@ -22,7 +22,7 @@ export const loginUser = (e, data) => {
       if (json.error) dispatch({ type: types.AUTH_ASYNC_FAIL, payload: json.error });
       else dispatch({ type: types.AUTH_LOGIN_DONE });
     })
-    .catch(console.log);
+    .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
   }
 };
 
@@ -32,7 +32,7 @@ export const logoutUser = () => {
     fetch(`${config.route}/api/v1/users/log-out`, { credentials: "include" })
       .then(res => res.json())
       .then(json => dispatch({ type: types.AUTH_LOGOUT_DONE }))
-      .catch(console.log);
+      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
   }
 }
 
@@ -52,7 +52,7 @@ export const signupUser = (e, data) => {
         if (json.error) dispatch({ type: types.AUTH_ASYNC_FAIL, payload: json.error });
         else dispatch({ type: types.AUTH_SIGNUP_DONE });
       })
-      .catch(console.log);
+      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
   }
 }
 

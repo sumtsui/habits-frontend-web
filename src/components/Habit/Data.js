@@ -4,7 +4,7 @@ import {withStyles} from '@material-ui/core/styles';
 
 const styles = {
   root: {
-    margin: '0 1.4em 1em'
+    margin: '0 1.8em 1em'
   }
 };
 

@@ -1,18 +1,9 @@
 import React, {Component} from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import Habit from './Habit/Habit';
 import { connect } from 'react-redux';
 import Empty from './Empty';
 
-
-const styles = theme => ({
-});
-
 class HabitList extends Component {
-
-  componentDidMount() {
-    
-  }
 
   componentDidUpdate(prevProps) {
     if (this.props.isToggled !== prevProps.isToggled || this.props.id !== prevProps.id) {
@@ -40,4 +31,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {})(withStyles(styles)(HabitList));
+export default connect(mapStateToProps, {})(HabitList);

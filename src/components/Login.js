@@ -14,7 +14,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: theme.spacing.unit * 8,
+    marginTop: theme.spacing.unit * 6,
   },
   title: {
     marginBottom: theme.spacing.unit * 4,

@@ -16,7 +16,7 @@ export const getHabits = () => {
           })  
         }
       })
-      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err }));
+      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
   }
 }
 
@@ -41,7 +41,7 @@ export const addNewHabit = (data, history) => {
           history.goBack();
         }
       })
-      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err }));
+      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
   }
 }
 
@@ -64,7 +64,7 @@ export const saveChange = (data, history) => {
         console.log('save', json)
         dispatch({ type: types.HABIT_SAVE_CHANGE_DONE })
       })
-      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err }));
+      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
   }
 }
 
@@ -84,7 +84,7 @@ export const recordHabit = (id, bool) => {
           payload: { bool, id }
         })
       })
-      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err }));
+      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
   }
 }
 
@@ -104,7 +104,7 @@ export const undoRecordHabit = (id, bool) => {
           payload: { bool, id }
         })
       })
-      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err }));
+      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
   }
 }
 
@@ -124,6 +124,6 @@ export const deleteHabit = id => {
           payload: id
         })
       })
-      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err }));
+      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
   }
 }
