@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import config from '../config';
 
 console.log('ENV', process.env.NODE_ENV);
+console.log('HEROKU', process.env.REACT_APP_HEROKU);
 console.log('config.route', config.route);
 
 class App extends Component {
