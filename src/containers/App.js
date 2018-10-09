@@ -5,8 +5,10 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../theme';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import config from '../config';
 
-console.log('ENV', process.env.NODE_ENV)
+console.log('ENV', process.env.NODE_ENV);
+console.log('config.route', config.route);
 
 class App extends Component {
 

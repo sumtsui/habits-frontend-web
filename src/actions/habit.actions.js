@@ -1,15 +1,15 @@
 import * as types from './ActionTypes';
 import config from '../config';
-console.log('config.route', config.route);
-console.log('HEROKU', process.env.REACT_APP_HEROKU);
 
-export const getHabits = (token) => {
-  console.log('getHabits action', token)
+export const getHabits = () => {
+  const jwt = localStorage.getItem('jwt');
+  console.log('getHabits action', jwt)
   return (dispatch) => {
     dispatch({ type: types.HABIT_ASYNC_START });
-    fetch(`${config.route}/api/v1/habits/all`, 
-        { headers: new Headers({ 'Habits-Auth-Token': token }) }
-      )
+    fetch(`${config.route}/api/v1/habits/all`, {
+      credentials: "include",
+      headers: new Headers({ 'jwt': jwt }) }
+    )
       .then(res => res.json())
       .then(json => {
         // Sort habits by pos
@@ -33,9 +33,6 @@ export const addNewHabit = (data, history) => {
       mode: "cors", 
       credentials: "include", 
       headers: { "Content-Type": "application/json; charset=utf-8" },
-      // cache: "no-cache", 
-      // redirect: "follow", 
-      // referrer: "no-referrer", 
       body: JSON.stringify(data)
     })
       .then(res => res.json())

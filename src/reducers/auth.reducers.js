@@ -14,7 +14,6 @@ const initialState = {
   error: '',
   loading: false,
   repeatPassword: '',
-  authToken: ''
 }
 
 export default (state = initialState, action) => {
@@ -47,7 +46,6 @@ export default (state = initialState, action) => {
         loading: false,
         password: '',
         email: '',
-        authToken: action.payload
       }
 
     case AUTH_LOGOUT_DONE:
