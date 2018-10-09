@@ -14,9 +14,6 @@ body {
 }
 
 @media (min-width: 600px) {
-  .main-wrapper {
-
-  }
   .habit-wrapper {
     margin: 1em 6.6em
   }
