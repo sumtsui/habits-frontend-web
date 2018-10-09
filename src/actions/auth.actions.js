@@ -13,7 +13,6 @@ export const loginUser = (e, data) => {
     fetch(`${config.route}/api/v1/users/log-in`, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, cors, *same-origin
-      credentials: "include", // include, same-origin, *omit
       headers: { "Content-Type": "application/json; charset=utf-8" },
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     })

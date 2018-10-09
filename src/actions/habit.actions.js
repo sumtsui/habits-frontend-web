@@ -9,7 +9,6 @@ export const getHabits = () => {
   return (dispatch) => {
     dispatch({ type: types.HABIT_ASYNC_START });
     fetch(`${config.route}/api/v1/habits/all`, {
-      credentials: "include",
       headers 
     })
       .then(res => res.json())
