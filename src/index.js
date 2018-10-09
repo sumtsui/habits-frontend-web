@@ -8,7 +8,14 @@ import {Provider} from 'react-redux';
 import reducers from './reducers';
 import ReduxThunk from 'redux-thunk';
 
-const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+const incrementMiddleware = store => next => action => {
+  if (action.type === 'HABIT_ASYNC_START') {
+    const jwt = localStorage.getItem('jwt');
+  }
+  next(action);
+}
+
+const store = createStore(reducers, {}, applyMiddleware(incrementMiddleware, ReduxThunk));
 
 render(
   <Provider store={store}>

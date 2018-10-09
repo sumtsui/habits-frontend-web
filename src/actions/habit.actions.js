@@ -3,13 +3,15 @@ import config from '../config';
 
 export const getHabits = () => {
   const jwt = localStorage.getItem('jwt');
-  console.log('getHabits action', jwt)
+  const headers = new Headers();
+  headers.append('jwt', jwt);
+
   return (dispatch) => {
     dispatch({ type: types.HABIT_ASYNC_START });
     fetch(`${config.route}/api/v1/habits/all`, {
       credentials: "include",
-      headers: new Headers({ 'jwt': jwt }) }
-    )
+      headers 
+    })
       .then(res => res.json())
       .then(json => {
         // Sort habits by pos
@@ -26,13 +28,18 @@ export const getHabits = () => {
 }
 
 export const addNewHabit = (data, history) => {
+  const jwt = localStorage.getItem('jwt');
+  const headers = new Headers();
+  headers.append('jwt', jwt);
+  headers.append("Content-Type", "application/json; charset=utf-8");
+
   return (dispatch) => {
     dispatch({ type: types.HABIT_ASYNC_START });
     fetch(`${config.route}/api/v1/habits/new`, {
       method: "POST",
       mode: "cors", 
       credentials: "include", 
-      headers: { "Content-Type": "application/json; charset=utf-8" },
+      headers,
       body: JSON.stringify(data)
     })
       .then(res => res.json())
@@ -47,7 +54,11 @@ export const addNewHabit = (data, history) => {
   }
 }
 
-export const saveChange = (data, history) => {
+export const saveChange = (data) => {
+  const jwt = localStorage.getItem('jwt');
+  const headers = new Headers();
+  headers.append('jwt', jwt);
+  headers.append("Content-Type", "application/json; charset=utf-8");
   
   // Get user-rearranged habit list index 
   const habits = data.map((habit, index) => ({ title: habit.title, pos: index }));
@@ -58,7 +69,7 @@ export const saveChange = (data, history) => {
       method: "PUT",
       mode: "cors",
       credentials: "include",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
+      headers,
       body: JSON.stringify({ habits })
     })
       .then(res => res.json())
@@ -71,6 +82,11 @@ export const saveChange = (data, history) => {
 }
 
 export const recordHabit = (target, id) => {
+  const jwt = localStorage.getItem('jwt');
+  const headers = new Headers();
+  headers.append('jwt', jwt);
+  headers.append("Content-Type", "application/json; charset=utf-8");
+
   return (dispatch) => {
     dispatch({ type: types.HABIT_RECORD_TOGGLED, payload: id });
     dispatch({ type: types.HABIT_ASYNC_START });
@@ -78,7 +94,7 @@ export const recordHabit = (target, id) => {
       method: "POST",
       mode: "cors",
       credentials: "include",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
+      headers
     })
       .then(res => res.json())
       .then(json => {
@@ -92,6 +108,10 @@ export const recordHabit = (target, id) => {
 }
 
 export const undoRecordHabit = (target, id) => {
+  const jwt = localStorage.getItem('jwt');
+  const headers = new Headers();
+  headers.append('jwt', jwt);
+  headers.append("Content-Type", "application/json; charset=utf-8");
   
   return (dispatch) => {
     dispatch({ type: types.HABIT_RECORD_TOGGLED, payload: id });
@@ -100,7 +120,7 @@ export const undoRecordHabit = (target, id) => {
       method: "DELETE",
       mode: "cors",
       credentials: "include",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
+      headers
     })
       .then(res => res.json())
       .then(json => {
@@ -115,13 +135,18 @@ export const undoRecordHabit = (target, id) => {
 }
 
 export const deleteHabit = id => {
+  const jwt = localStorage.getItem('jwt');
+  const headers = new Headers();
+  headers.append('jwt', jwt);
+  headers.append("Content-Type", "application/json; charset=utf-8");
+
   return (dispatch) => {
     dispatch({ type: types.HABIT_ASYNC_START, payload: id });
     fetch(`${config.route}/api/v1/habits/${id}/`, {
       method: "DELETE",
       mode: "cors",
       credentials: "include",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
+      headers
     })
       .then(res => res.json())
       .then(json => {

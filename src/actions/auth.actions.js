@@ -30,13 +30,15 @@ export const loginUser = (e, data) => {
 };
 
 export const logoutUser = () => {
-  return (dispatch) => {
-    dispatch({ type: types.AUTH_ASYNC_START });
-    fetch(`${config.route}/api/v1/users/log-out`, { credentials: "include" })
-      .then(res => res.json())
-      .then(json => dispatch({ type: types.AUTH_LOGOUT_DONE }))
-      .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
-  }
+  localStorage.removeItem('jwt');
+  return { type: types.AUTH_LOGOUT_DONE };
+  // return (dispatch) => {
+    // dispatch({ type: types.AUTH_ASYNC_START });
+    // fetch(`${config.route}/api/v1/users/log-out`, { credentials: "include" })
+    //   .then(res => res.json())
+    //   .then(json => dispatch({ type: types.AUTH_LOGOUT_DONE }))
+    //   .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
+  // }
 }
 
 export const signupUser = (e, data) => {
