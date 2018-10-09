@@ -18,8 +18,7 @@ const styles = theme => ({
 class Main extends Component {
 
   componentDidMount() {
-    console.log('token', this.props.token)
-    this.props.getHabits(this.props.token);
+    this.props.getHabits();
   }
 
   componentDidUpdate(prevProps) {
@@ -85,7 +84,6 @@ const mapStateToProps = state => {
     habitAdded: habit.habitAdded,
     isLogin: auth.isLogin,
     authLoading: auth.loading,
-    token: auth.authToken
   }
 }
 
