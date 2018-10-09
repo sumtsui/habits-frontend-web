@@ -17,10 +17,15 @@ export const loginUser = (e, data) => {
       headers: { "Content-Type": "application/json; charset=utf-8" },
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     })
-    .then(res => res.json())
+    .then(res => {
+      console.log('res', res);
+      return res.json();
+    })
     .then(json => {
       if (json.error) dispatch({ type: types.AUTH_ASYNC_FAIL, payload: json.error });
-      else dispatch({ type: types.AUTH_LOGIN_DONE });
+      else {
+        dispatch({ type: types.AUTH_LOGIN_DONE, payload: json.authToken });
+      }
     })
     .catch(err => dispatch({ type: types.HABIT_ASYNC_FAIL, payload: err.message }));
   }

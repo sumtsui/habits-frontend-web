@@ -32,10 +32,6 @@ const styles = theme => ({
 
 class Login extends Component {
 
-  state = {
-    HintkbarOpen: false
-  }
-
   render() {
     const { classes, onTextChanged, email, password, loginUser, isLogin, match, error, loading} = this.props;
 

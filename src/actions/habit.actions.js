@@ -3,10 +3,13 @@ import config from '../config';
 console.log('config.route', config.route);
 console.log('HEROKU', process.env.REACT_APP_HEROKU);
 
-export const getHabits = () => {
+export const getHabits = (token) => {
+  console.log('getHabits action', token)
   return (dispatch) => {
     dispatch({ type: types.HABIT_ASYNC_START });
-    fetch(`${config.route}/api/v1/habits/all`, { credentials: "include" })
+    fetch(`${config.route}/api/v1/habits/all`, 
+        { headers: new Headers({ 'Habits-Auth-Token': token }) }
+      )
       .then(res => res.json())
       .then(json => {
         // Sort habits by pos
