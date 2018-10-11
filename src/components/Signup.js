@@ -65,6 +65,7 @@ class Signup extends Component {
           inputProps={{ 'aria-label': 'password', }}
           onChange={onTextChanged}
           type='password'
+          disabled={loading ? true : false}
         />
         <Input
           value={repeatPassword}
@@ -74,6 +75,7 @@ class Signup extends Component {
           inputProps={{ 'aria-label': 'repeat password', }}
           onChange={onTextChanged}
           type='password'
+          disabled={loading ? true : false}
         />
         <Button
           color="primary"
@@ -82,6 +84,7 @@ class Signup extends Component {
           className={classes.loginButton}
           onClick={(e) => signupUser(e, { email, password, repeatPassword })}
           type='submit'
+          disabled={loading ? true : false}
         />
         <Button
           color="primary"
