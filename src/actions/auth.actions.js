@@ -56,4 +56,8 @@ export const signupUser = (e, data) => {
   }
 }
 
+export const keepLoggedIn = () => {
+  return { type: types.AUTH_STILL_LOGGED_IN };
+}
+
 

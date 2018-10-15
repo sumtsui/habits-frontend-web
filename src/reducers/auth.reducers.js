@@ -5,6 +5,7 @@ import {
   AUTH_LOGIN_DONE,
   AUTH_LOGOUT_DONE,
   AUTH_SIGNUP_DONE,
+  AUTH_STILL_LOGGED_IN
 } from '../actions/ActionTypes';
 
 const initialState = {
@@ -65,6 +66,12 @@ export default (state = initialState, action) => {
         password: '',
         email: '',
         repeatPassword: ''
+      }
+    
+    case AUTH_STILL_LOGGED_IN:
+      return {
+        ...state,
+        isLogin: true
       }
 
     default:

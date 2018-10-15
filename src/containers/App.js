@@ -6,12 +6,20 @@ import theme from '../theme';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import config from '../config';
+import { keepLoggedIn } from '../actions';
 
 console.log('ENV', process.env.NODE_ENV);
 console.log('HEROKU', process.env.REACT_APP_HEROKU);
 console.log('Backend', config.route);
 
 class App extends Component {
+
+  componentWillMount() {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt !== null) {
+      this.props.keepLoggedIn();
+    }
+  }
 
   render() {
 
@@ -53,4 +61,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, { keepLoggedIn })(App);
